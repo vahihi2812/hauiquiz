@@ -1,0 +1,78 @@
+package com.example.hauiquiz.ui.doTest;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hauiquiz.R;
+import com.example.hauiquiz.adapter.QuestionSetAdapter;
+import com.example.hauiquiz.dao.Question_setDAO;
+import com.example.hauiquiz.entity.Question_Set;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ChooseQuizz extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+    private ListView lv;
+    private ImageButton btn_back;
+    private List<Question_Set> list;
+    private QuestionSetAdapter adapter;
+    private Question_setDAO qsDAO;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose_quizz);
+
+        getWidget();
+        getData();
+        setEvents();
+    }
+
+    private void setEvents() {
+        lv.setOnItemClickListener(this);
+        btn_back.setOnClickListener(this);
+    }
+
+    private void getData() {
+        qsDAO = new Question_setDAO(this);
+        list = new ArrayList<>(qsDAO.getAllSetByUserType(Question_Set.TYPE_QUIZ));
+        adapter = new QuestionSetAdapter(this, R.layout.item_question_set, list);
+        lv.setAdapter(adapter);
+    }
+
+    private void getWidget() {
+        lv = findViewById(R.id.choose_quizz_lv);
+        btn_back = findViewById(R.id.choose_quiz_btn_back);
+    }
+
+    public static final String DATA_QUIZ = "data_quiz";
+    public static final String DATA_QUIZ_BUNDLE = "data_quiz_bundle";
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Question_Set qs = list.get(position);
+        Intent intent = new Intent(this, QuizDetail.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DATA_QUIZ, qs);
+        intent.putExtra(DATA_QUIZ_BUNDLE, bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.choose_quiz_btn_back) {
+            getBack();
+        }
+    }
+
+    private void getBack() {
+        finish();
+    }
+}

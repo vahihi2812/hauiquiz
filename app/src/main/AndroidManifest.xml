@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/logo_quiz"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/logo_quiz"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HaUIQuiz">
+        <activity
+            android:name=".MainActivity1"
+            android:exported="false" />
+        <activity
+            android:name=".ui.forum.UploadProblem"
+            android:exported="false" />
+        <activity
+            android:name=".ui.forum.ViewSolutions"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.forum.ViewProblems"
+            android:exported="false" />
+        <activity
+            android:name=".ui.viewHistory.ViewResultHistory"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.TestDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.QuizDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.ChooseTest"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.ChooseQuizz"
+            android:exported="false" />
+        <activity
+            android:name=".ui.createTest.TeacherCreateTest"
+            android:exported="false" />
+        <activity
+            android:name=".ui.createQuiz.ViewQuestions"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doNote.ViewNoteList"
+            android:exported="false" />
+        <activity
+            android:name=".ui.testlinhtinh.Test1Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doNote.ViewSubjectList"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.PracticeMode"
+            android:exported="false"
+            android:noHistory="true" />
+        <activity
+            android:name=".ui.doTest.ResultView"
+            android:exported="false" />
+        <activity
+            android:name=".ui.testlinhtinh.TestCountTime"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doTest.TestMode"
+            android:exported="false"
+            android:noHistory="true" />
+        <activity
+            android:name=".ui.createQuiz.ViewQuestionSet"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.StudentHome"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.TeacherHome"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

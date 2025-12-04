@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">HaUIQuiz</string>
+    <string name="card1">Kiểm tra</string>
+    <string name="card2">Ôn tập</string>
+    <string name="card3">Diễn đàn</string>
+    <string name="card4">Tạo câu hỏi</string>
+    <string name="card5">Lịch sử làm bài</string>
+    <string name="card6">Kết quả học tập</string>
+    <string name="card7">Ghi nhớ</string>
+    <string name="card8">Đăng xuất</string>
+    <string name="card9">Tạo bài thi</string>
+    <string name="card10">Quản lý học tập</string>
+    <string name="card11">Lịch sử tạo bài</string>
+</resources>
