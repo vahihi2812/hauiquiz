@@ -2,6 +2,8 @@ package com.example.hauiquiz.ui.doNote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hauiquiz.R;
@@ -25,14 +28,14 @@ import java.util.List;
 public class ViewSubjectList extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ListView lv_subject;
     private EditText view_subject_list_txt_des, view_subject_list_txt_name, view_subject_list_edt_share_id, view_subject_list_txt_id;
-    private Button btn_add, btn_edit, btn_del, btn_add_share, btn_get_note;
-    private ImageButton btn_back;
+    private Button btn_add_share, btn_get_note;
+    private ImageButton btn_back, btn_menu;
     private ArrayAdapter<Subject> adapter;
     private List<Subject> list;
     SubjectDAO subjectDAO;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_subject_list);
 
@@ -41,11 +44,45 @@ public class ViewSubjectList extends AppCompatActivity implements AdapterView.On
         setEvents();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_crud, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        String s_id = view_subject_list_txt_id.getText().toString();
+        String name = view_subject_list_txt_name.getText().toString();
+        String des = view_subject_list_txt_des.getText().toString();
+
+        if (s_id.isEmpty() || name.isEmpty() || des.isEmpty()) {
+            DisplayMessageDialog.displayMessage(ViewSubjectList.this, "Dữ liệu không hợp lệ!",
+                    "Hãy nhập đầy đủ các trường");
+            return true;
+        }
+
+        Subject s = new Subject(s_id, name, des, LoginActivity.USER_ID);
+
+        if (id == R.id.action_add) {
+            addSubject(s);
+            return true;
+        } else if (id == R.id.action_edit) {
+            editSubject(s);
+            return true;
+        } else if (id == R.id.action_delete) {
+            delSubject(s_id);
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
     private void setEvents() {
         lv_subject.setOnItemClickListener(this);
-        btn_add.setOnClickListener(this);
-        btn_del.setOnClickListener(this);
-        btn_edit.setOnClickListener(this);
+        registerForContextMenu(btn_menu);
         btn_back.setOnClickListener(this);
         btn_add_share.setOnClickListener(this);
         btn_get_note.setOnClickListener(this);
@@ -68,12 +105,10 @@ public class ViewSubjectList extends AppCompatActivity implements AdapterView.On
         view_subject_list_txt_name = findViewById(R.id.view_subject_list_txt_name);
         view_subject_list_edt_share_id = findViewById(R.id.view_subject_list_edt_share_id);
         view_subject_list_txt_id = findViewById(R.id.view_subject_list_txt_id);
-        btn_add = findViewById(R.id.view_subject_list_btn_add);
-        btn_edit = findViewById(R.id.view_subject_list_btn_edit);
-        btn_del = findViewById(R.id.view_subject_list_btn_del);
         btn_add_share = findViewById(R.id.view_subject_list_btn_add_share);
         btn_back = findViewById(R.id.view_subject_list_btn_back);
         btn_get_note = findViewById(R.id.view_subject_list_btn_get_note);
+        btn_menu = findViewById(R.id.view_subject_list_btn_menu);
     }
 
     @Override
@@ -100,24 +135,14 @@ public class ViewSubjectList extends AppCompatActivity implements AdapterView.On
         }
 
         String s_id = view_subject_list_txt_id.getText().toString();
-        String name = view_subject_list_txt_name.getText().toString();
-        String des = view_subject_list_txt_des.getText().toString();
 
-        if (s_id.isEmpty() || name.isEmpty() || des.isEmpty()) {
+        if (s_id.isEmpty()) {
             DisplayMessageDialog.displayMessage(ViewSubjectList.this, "Dữ liệu không hợp lệ!",
                     "Hãy nhập đầy đủ các trường");
             return;
         }
 
-        Subject s = new Subject(s_id, name, des, LoginActivity.USER_ID);
-
-        if (id == R.id.view_subject_list_btn_add) {
-            addSubject(s);
-        } else if (id == R.id.view_subject_list_btn_edit) {
-            editSubject(s);
-        } else if (id == R.id.view_subject_list_btn_del) {
-            delSubject(s_id);
-        } else if (id == R.id.view_subject_list_btn_get_note) {
+        if (id == R.id.view_subject_list_btn_get_note) {
             getNotes(s_id);
         }
     }

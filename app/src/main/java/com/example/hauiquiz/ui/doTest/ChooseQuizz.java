@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hauiquiz.R;
@@ -25,7 +26,7 @@ public class ChooseQuizz extends AppCompatActivity implements AdapterView.OnItem
     private Question_setDAO qsDAO;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_quizz);
 

@@ -17,6 +17,10 @@ public class Question_Set implements Serializable {
 
     public static final int TYPE_QUIZ = 1;
     public static final int TYPE_TEST = 2;
+
+    public Question_Set() {
+    }
+
     public Question_Set(int set_id, String set_name, String set_des, String set_created_at, int set_type, int set_weight, String set_duration, String set_creator, int user_id) {
         this.set_id = set_id;
         this.set_name = set_name;

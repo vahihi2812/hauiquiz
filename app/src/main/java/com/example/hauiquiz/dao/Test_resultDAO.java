@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.NonNull;
+
 import com.example.hauiquiz.database.DatabaseUtils;
+import com.example.hauiquiz.entity.StudentResult;
 import com.example.hauiquiz.entity.Test_result;
 import com.example.hauiquiz.entity.Test_result_history;
 
@@ -24,10 +27,11 @@ public class Test_resultDAO {
 
     private final DatabaseUtils databaseUtils;
 
-    public Test_resultDAO(Context context) {
+    public Test_resultDAO(@NonNull Context context) {
         databaseUtils = DatabaseUtils.getInstance(context);
     }
 
+    @NonNull
     public List<Test_result> getAllByUserId(int userId) {
         SQLiteDatabase db = databaseUtils.getReadableDatabase();
         try (Cursor cursor = db.query(TABLE_NAME, null, COL_USER_ID + " = ? ",
@@ -49,7 +53,7 @@ public class Test_resultDAO {
         return List.of();
     }
 
-    public long addTest_result(Test_result ts) {
+    public long addTest_result(@NonNull Test_result ts) {
         SQLiteDatabase db = databaseUtils.getWritableDatabase();
         long res;
         try {
@@ -61,7 +65,7 @@ public class Test_resultDAO {
         return -1;
     }
 
-    public boolean editTest_result(Test_result ts, long ts_id) {
+    public boolean editTest_result(@NonNull Test_result ts, long ts_id) {
         SQLiteDatabase db = databaseUtils.getWritableDatabase();
         long res;
         try {
@@ -75,6 +79,7 @@ public class Test_resultDAO {
         return false;
     }
 
+    @NonNull
     public List<Test_result_history> getAllTestHistoryByUserId(int userId) {
         List<Test_result_history> list = new ArrayList<>();
         SQLiteDatabase db = databaseUtils.getReadableDatabase();
@@ -104,6 +109,30 @@ public class Test_resultDAO {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        return list;
+    }
+
+    @NonNull
+    public List<StudentResult> getListStudentResultBySetId(int setId) {
+        List<StudentResult> list = new ArrayList<>();
+        SQLiteDatabase db = databaseUtils.getReadableDatabase();
+
+        String sql = "SELECT User.user_fullname, Test_result.score, Test_result.completed_time " +
+                "FROM Test_result " +
+                "INNER JOIN User ON Test_result.user_id = User.user_id " +
+                "WHERE Test_result.set_id = ?";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(setId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(0);
+                double score = cursor.getDouble(1);
+                String time = cursor.getString(2);
+                list.add(new StudentResult(name, score, time));
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         return list;
     }

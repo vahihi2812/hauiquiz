@@ -3,6 +3,8 @@ package com.example.hauiquiz.ui.createTest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,8 +30,8 @@ import java.util.List;
 
 public class TeacherCreateTest extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private EditText edt_name, edt_des, edt_weight, edt_hour, edt_min;
-    private Button btn_add, btn_edit, btn_del,btn_view;
-    ImageButton btn_back;
+    private Button btn_view;
+    private ImageButton btn_back, btn_menu;
     private ListView lv;
     private QuestionSetAdapter adapter;
     private List<Question_Set> list;
@@ -46,13 +48,51 @@ public class TeacherCreateTest extends AppCompatActivity implements AdapterView.
         setEvents();
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        Question_Set qs;
+        try {
+            String name = edt_name.getText().toString();
+            String des = edt_des.getText().toString();
+            String dur = edt_hour.getText().toString() + ":" + edt_min.getText().toString();
+            int weight = Integer.parseInt(edt_weight.getText().toString());
+            if (name.isEmpty() || des.isEmpty() || dur.equals(":")) {
+                DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Không được để trống!");
+                return true;
+            }
+            qs = new Question_Set(0, name, des, LoginActivity.LOGIN_TIME, Question_Set.TYPE_TEST,
+                    weight, dur, LoginActivity.USERNAME, LoginActivity.USER_ID);
+        } catch (Exception e) {
+            DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Chưa hợp lệ!");
+            return true;
+        }
+
+        if (id == R.id.action_add) {
+            addQuestionSet(qs);
+        } else if (id == R.id.action_edit) {
+            editQuestionSet(qs);
+        } else if (id == R.id.action_delete) {
+            delQuestionSet();
+        } else if (id == R.id.teacher_create_test_btn_view) {
+            viewQuestion();
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_crud, menu);
+    }
+
     private void setEvents() {
         lv.setOnItemClickListener(this);
-        btn_add.setOnClickListener(this);
-        btn_edit.setOnClickListener(this);
-        btn_del.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_view.setOnClickListener(this);
+        registerForContextMenu(btn_menu);
     }
 
     private void getData() {
@@ -78,11 +118,9 @@ public class TeacherCreateTest extends AppCompatActivity implements AdapterView.
         edt_hour = findViewById(R.id.teacher_create_test_edt_hour);
         edt_min = findViewById(R.id.teacher_create_test_edt_minute);
         // BTN
-        btn_add = findViewById(R.id.teacher_create_test_btn_add);
-        btn_edit = findViewById(R.id.teacher_create_test_btn_edit);
-        btn_del = findViewById(R.id.teacher_create_test_btn_del);
         btn_back = findViewById(R.id.teacher_create_test_btn_back);
         btn_view = findViewById(R.id.teacher_create_test_btn_view);
+        btn_menu = findViewById(R.id.teacher_create_test_btn_menu);
     }
 
     @SuppressLint("SetTextI18n")
@@ -113,34 +151,6 @@ public class TeacherCreateTest extends AppCompatActivity implements AdapterView.
 
         if (id == R.id.teacher_create_test_btn_back) {
             getBack();
-            return;
-        }
-
-        Question_Set qs;
-        try {
-            String name = edt_name.getText().toString();
-            String des = edt_des.getText().toString();
-            String dur = edt_hour.getText().toString() + ":" + edt_min.getText().toString();
-            int weight = Integer.parseInt(edt_weight.getText().toString());
-            if (name.isEmpty() || des.isEmpty() || dur.equals(":")) {
-                DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Không được để trống!");
-                return;
-            }
-            qs = new Question_Set(0, name, des, LoginActivity.LOGIN_TIME, Question_Set.TYPE_TEST,
-                    weight, dur, LoginActivity.USERNAME, LoginActivity.USER_ID);
-        } catch (Exception e) {
-            DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Chưa hợp lệ!");
-            return;
-        }
-
-        if (id == R.id.teacher_create_test_btn_add) {
-            addQuestionSet(qs);
-        } else if (id == R.id.teacher_create_test_btn_edit) {
-            editQuestionSet(qs);
-        } else if (id == R.id.teacher_create_test_btn_del) {
-            delQuestionSet();
-        } else if (id == R.id.teacher_create_test_btn_view) {
-            viewQuestion();
         }
     }
 

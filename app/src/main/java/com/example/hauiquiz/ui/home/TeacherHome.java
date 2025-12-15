@@ -66,7 +66,8 @@ public class TeacherHome extends AppCompatActivity implements View.OnClickListen
     }
 
     private void moveToTeacherResult() {
-        // KQHT
+        Intent intent = new Intent(TeacherHome.this, com.example.hauiquiz.ui.createTest.TeacherListTestResultActivity.class);
+        startActivity(intent);
     }
 
     private void moveToTeacherCreate() {

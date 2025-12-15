@@ -2,11 +2,13 @@ package com.example.hauiquiz.ui.createQuiz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ public class ViewQuestions extends AppCompatActivity implements AdapterView.OnIt
     private Spinner spn_choice, spn_level;
     private EditText view_questions_edt_content, view_questions_edt_first_choice, view_questions_edt_second_choice,
             view_questions_edt_third_choice, view_questions_edt_fourth_choice, view_questions_edt_explain;
-    private Button view_questions_btn_add, view_questions_btn_edit, view_questions_btn_del, view_questions_btn_back;
+    private ImageButton btn_back, btn_menu;
     private QuestionAdapter adapter;
     private List<Question> list;
     QuestionDAO questionDAO;
@@ -49,12 +51,55 @@ public class ViewQuestions extends AppCompatActivity implements AdapterView.OnIt
         setEvents();
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        Question q;
+        try {
+            String content = view_questions_edt_content.getText().toString();
+            String first_choice = view_questions_edt_first_choice.getText().toString();
+            String second_choice = view_questions_edt_second_choice.getText().toString();
+            String third_choice = view_questions_edt_third_choice.getText().toString();
+            String fourth_choice = view_questions_edt_fourth_choice.getText().toString();
+            String explain = view_questions_edt_explain.getText().toString();
+            int choice = spn_choice.getSelectedItemPosition() + 1;
+            int level = spn_level.getSelectedItemPosition() + 1;
+
+            if (content.isEmpty() || first_choice.isEmpty() || second_choice.isEmpty() || third_choice.isEmpty() ||
+                    fourth_choice.isEmpty() || explain.isEmpty()) {
+                DisplayMessageDialog.displayMessage(this, "DATA", "EMPTY!");
+                return true;
+            }
+
+            q = new Question(0, content, first_choice, second_choice, third_choice, fourth_choice, choice, level, explain, qs_id);
+
+        } catch (Exception e) {
+            DisplayMessageDialog.displayMessage(this, "DATA", "ERROR!");
+            return true;
+        }
+
+        if (id == R.id.action_add) {
+            addQuestion(q);
+        } else if (id == R.id.action_edit) {
+            editQuestion(q);
+        } else if (id == R.id.action_delete) {
+            delQuestion();
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_crud, menu);
+    }
+
     private void setEvents() {
         lv.setOnItemClickListener(this);
-        view_questions_btn_add.setOnClickListener(this);
-        view_questions_btn_edit.setOnClickListener(this);
-        view_questions_btn_del.setOnClickListener(this);
-        view_questions_btn_back.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
+        registerForContextMenu(btn_menu);
     }
 
     private void getWidget() {
@@ -70,11 +115,9 @@ public class ViewQuestions extends AppCompatActivity implements AdapterView.OnIt
         view_questions_edt_third_choice = findViewById(R.id.view_questions_edt_third_choice);
         view_questions_edt_fourth_choice = findViewById(R.id.view_questions_edt_fourth_choice);
         view_questions_edt_explain = findViewById(R.id.view_questions_edt_explain);
-        //BTN
-        view_questions_btn_add = findViewById(R.id.view_questions_btn_add);
-        view_questions_btn_edit = findViewById(R.id.view_questions_btn_edit);
-        view_questions_btn_del = findViewById(R.id.view_questions_btn_del);
-        view_questions_btn_back = findViewById(R.id.view_questions_btn_back);
+        //IMG BTN
+        btn_back = findViewById(R.id.view_questions_btn_back);
+        btn_menu = findViewById(R.id.view_questions_btn_menu);
     }
 
     private void getData() {
@@ -144,39 +187,6 @@ public class ViewQuestions extends AppCompatActivity implements AdapterView.OnIt
 
         if (id == R.id.view_questions_btn_back) {
             getBack();
-            return;
-        }
-
-        Question q;
-        try {
-            String content = view_questions_edt_content.getText().toString();
-            String first_choice = view_questions_edt_first_choice.getText().toString();
-            String second_choice = view_questions_edt_second_choice.getText().toString();
-            String third_choice = view_questions_edt_third_choice.getText().toString();
-            String fourth_choice = view_questions_edt_fourth_choice.getText().toString();
-            String explain = view_questions_edt_explain.getText().toString();
-            int choice = spn_choice.getSelectedItemPosition() + 1;
-            int level = spn_level.getSelectedItemPosition() + 1;
-
-            if (content.isEmpty() || first_choice.isEmpty() || second_choice.isEmpty() || third_choice.isEmpty() ||
-                    fourth_choice.isEmpty() || explain.isEmpty()) {
-                DisplayMessageDialog.displayMessage(this, "DATA", "EMPTY!");
-                return;
-            }
-
-            q = new Question(0, content, first_choice, second_choice, third_choice, fourth_choice, choice, level, explain, qs_id);
-
-        } catch (Exception e) {
-            DisplayMessageDialog.displayMessage(this, "DATA", "ERROR!");
-            return;
-        }
-
-        if (id == R.id.view_questions_btn_add) {
-            addQuestion(q);
-        } else if (id == R.id.view_questions_btn_edit) {
-            editQuestion(q);
-        } else if (id == R.id.view_questions_btn_del) {
-            delQuestion();
         }
     }
 

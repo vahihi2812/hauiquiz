@@ -2,6 +2,8 @@ package com.example.hauiquiz.ui.createQuiz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,8 +28,8 @@ import java.util.List;
 public class ViewQuestionSet extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ListView lv;
     private EditText view_question_set_edt_name, view_question_set_edt_des;
-    private Button view_question_set_btn_add, view_question_set_btn_edit, view_question_set_btn_del, view_question_set_btn_view;
-    ImageButton view_question_set_btn_back;
+    private Button view_question_set_btn_view;
+    ImageButton view_question_set_btn_back, view_question_set_btn_menu;
     private List<Question_Set> list;
     private QuestionSetAdapter adapter;
     private int id_selected = -1;
@@ -43,15 +45,54 @@ public class ViewQuestionSet extends AppCompatActivity implements AdapterView.On
         setEvents();
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        Question_Set qs;
+        try {
+            String name = view_question_set_edt_name.getText().toString();
+            String des = view_question_set_edt_des.getText().toString();
+            if (name.isEmpty() || des.isEmpty()) {
+                DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Không được để trống!");
+                return true;
+            }
+            qs = new Question_Set(0, name, des, LoginActivity.LOGIN_TIME, Question_Set.TYPE_QUIZ,
+                    0, "", LoginActivity.USERNAME, LoginActivity.USER_ID);
+        } catch (Exception e) {
+            DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Chưa hợp lệ!");
+            return true;
+        }
+
+        if (id == R.id.action_add) {
+            addQuestionSet(qs);
+            return true;
+        } else if (id == R.id.action_edit) {
+            editQuestionSet(qs);
+            return true;
+        } else if (id == R.id.action_delete) {
+            delQuestionSet();
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_crud, menu);
+    }
+
     private void setEvents() {
         // LV
         lv.setOnItemClickListener(this);
         // Button
-        view_question_set_btn_add.setOnClickListener(this);
-        view_question_set_btn_edit.setOnClickListener(this);
-        view_question_set_btn_del.setOnClickListener(this);
         view_question_set_btn_view.setOnClickListener(this);
+        // IMG Button
         view_question_set_btn_back.setOnClickListener(this);
+        // Register context menu
+        registerForContextMenu(view_question_set_btn_menu);
     }
 
     private void getData() {
@@ -69,12 +110,10 @@ public class ViewQuestionSet extends AppCompatActivity implements AdapterView.On
         // LV
         lv = findViewById(R.id.lv_question_set);
         // Button
-        view_question_set_btn_add = findViewById(R.id.view_question_set_btn_add);
-        view_question_set_btn_edit = findViewById(R.id.view_question_set_btn_edit);
-        view_question_set_btn_del = findViewById(R.id.view_question_set_btn_del);
         view_question_set_btn_view = findViewById(R.id.view_question_set_btn_view);
         // IMG BTN
         view_question_set_btn_back = findViewById(R.id.view_question_set_btn_back);
+        view_question_set_btn_menu = findViewById(R.id.view_question_set_btn_menu);
         // Edittext
         view_question_set_edt_name = findViewById(R.id.view_question_set_edt_name);
         view_question_set_edt_des = findViewById(R.id.view_question_set_edt_des);
@@ -97,28 +136,7 @@ public class ViewQuestionSet extends AppCompatActivity implements AdapterView.On
             return;
         }
 
-        Question_Set qs;
-        try {
-            String name = view_question_set_edt_name.getText().toString();
-            String des = view_question_set_edt_des.getText().toString();
-            if (name.isEmpty() || des.isEmpty()) {
-                DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Không được để trống!");
-                return;
-            }
-            qs = new Question_Set(0, name, des, LoginActivity.LOGIN_TIME, Question_Set.TYPE_QUIZ,
-                    0, "", LoginActivity.USERNAME, LoginActivity.USER_ID);
-        } catch (Exception e) {
-            DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Chưa hợp lệ!");
-            return;
-        }
-
-        if (id == R.id.view_question_set_btn_add) {
-            addQuestionSet(qs);
-        } else if (id == R.id.view_question_set_btn_edit) {
-            editQuestionSet(qs);
-        } else if (id == R.id.view_question_set_btn_del) {
-            delQuestionSet();
-        } else if (id == R.id.view_question_set_btn_view) {
+        if (id == R.id.view_question_set_btn_view) {
             viewQuestion();
         }
     }

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HaUIQuiz">
         <activity
+            android:name=".ui.createTest.TeacherListTestResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.createTest.TeacherViewResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity1"
             android:exported="false" />
         <activity

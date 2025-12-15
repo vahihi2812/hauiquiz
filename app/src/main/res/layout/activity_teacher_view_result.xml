@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/btn_back_result"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/back_arrow_svgrepo_com" />
+
+        <TextView
+            android:id="@+id/tv_title_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KẾT QUẢ BÀI THI"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chưa có sinh viên nào làm bài thi này."
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/lv_student_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

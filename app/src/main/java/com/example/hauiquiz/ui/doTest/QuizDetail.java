@@ -58,7 +58,6 @@ public class QuizDetail extends AppCompatActivity implements View.OnClickListene
                 txt_des.setText(qs.getSet_des());
                 txt_updated_time.setText(qs.getSet_created_at());
                 txt_creator.setText(qs.getSet_creator());
-                // FAKE
                 edt_hour.setText("0");
                 edt_min.setText("1");
             }
@@ -135,7 +134,6 @@ public class QuizDetail extends AppCompatActivity implements View.OnClickListene
     public static final String QD_DATA_MIN = "qd_data_min";
 
     private void enterTestMode(int hour, int min) {
-        // gui ques_set_id
         Intent intent = new Intent(this, TestMode.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(TestMode.PLAY_CODE_KEY, PLAY_QUIZ_CODE_VALUE);

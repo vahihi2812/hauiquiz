@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.NonNull;
+
 import com.example.hauiquiz.database.DatabaseUtils;
 import com.example.hauiquiz.entity.Question_Set;
 
@@ -109,6 +111,32 @@ public class Question_setDAO {
             return false;
         }
         return false;
+    }
+
+    @NonNull
+    public List<Question_Set> getAllSetsByUserId(int userId) {
+        List<Question_Set> list = new ArrayList<>();
+        SQLiteDatabase db = databaseUtils.getReadableDatabase();
+        String sql = "SELECT * FROM Question_Set WHERE user_id = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String des = cursor.getString(2);
+                String date = cursor.getString(3);
+                int type = cursor.getInt(4);
+                Question_Set qs = new Question_Set();
+                qs.setSet_id(id);
+                qs.setSet_name(name);
+                qs.setSet_des(des);
+                qs.setSet_created_at(date);
+                qs.setSet_type(type);
+                list.add(qs);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
     }
 
     private ContentValues toContentValues(Question_Set qs) {
