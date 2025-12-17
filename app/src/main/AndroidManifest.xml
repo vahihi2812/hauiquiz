@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HaUIQuiz">
         <activity
+            android:name=".ui.chart.ScoreLineChart"
+            android:exported="false" />
+        <activity
             android:name=".ui.createTest.TeacherListTestResultActivity"
             android:exported="false" />
         <activity
@@ -55,7 +58,7 @@
             android:name=".ui.doNote.ViewNoteList"
             android:exported="false" />
         <activity
-            android:name=".ui.testlinhtinh.Test1Activity"
+            android:name=".ui.chart.UploadQuestionExcelFile"
             android:exported="false" />
         <activity
             android:name=".ui.doNote.ViewSubjectList"
@@ -68,7 +71,7 @@
             android:name=".ui.doTest.ResultView"
             android:exported="false" />
         <activity
-            android:name=".ui.testlinhtinh.TestCountTime"
+            android:name=".ui.chart.ShowScoreChart"
             android:exported="false" />
         <activity
             android:name=".ui.doTest.TestMode"

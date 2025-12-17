@@ -47,34 +47,43 @@ public class ViewQuestionSet extends AppCompatActivity implements AdapterView.On
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // Lấy id của item được chọn trong context menu
         int id = item.getItemId();
-
+        // Đối tượng lưu thông tin bộ câu hỏi
         Question_Set qs;
         try {
+            // Lấy dữ liệu người dùng nhập từ các ô EditText
             String name = view_question_set_edt_name.getText().toString();
             String des = view_question_set_edt_des.getText().toString();
+            // Kiểm tra dữ liệu rỗng – đảm bảo người dùng nhập đầy đủ thông tin
             if (name.isEmpty() || des.isEmpty()) {
+                // Hiển thị thông báo lỗi nếu dữ liệu không hợp lệ
                 DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Không được để trống!");
+                // Dừng xử lý sự kiện
                 return true;
             }
             qs = new Question_Set(0, name, des, LoginActivity.LOGIN_TIME, Question_Set.TYPE_QUIZ,
                     0, "", LoginActivity.USERNAME, LoginActivity.USER_ID);
         } catch (Exception e) {
+            // Bắt các lỗi phát sinh trong quá trình xử lý dữ liệu
             DisplayMessageDialog.displayMessage(this, "DỮ LIỆU", "Chưa hợp lệ!");
             return true;
         }
-
+        // Xử lý hành động dựa trên item được chọn trong context menu
         if (id == R.id.action_add) {
+            // Thực hiện chức năng thêm bộ câu hỏi mới
             addQuestionSet(qs);
             return true;
         } else if (id == R.id.action_edit) {
+            // Thực hiện chức năng chỉnh sửa bộ câu hỏi
             editQuestionSet(qs);
             return true;
         } else if (id == R.id.action_delete) {
+            // Thực hiện chức năng xóa bộ câu hỏi
             delQuestionSet();
             return true;
         }
-
+        // Gọi xử lý mặc định nếu không khớp hành động nào
         return super.onContextItemSelected(item);
     }
 
@@ -142,6 +151,7 @@ public class ViewQuestionSet extends AppCompatActivity implements AdapterView.On
     }
 
     public static final String DATA_QS_ID = "data_qs_id";
+
     private void viewQuestion() {
         if (id_selected != -1) {
             Intent intent = new Intent(this, ViewQuestions.class);

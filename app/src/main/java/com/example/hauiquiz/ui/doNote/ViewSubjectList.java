@@ -52,31 +52,40 @@ public class ViewSubjectList extends AppCompatActivity implements AdapterView.On
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // Lấy id của item được chọn trong context menu
         int id = item.getItemId();
-
+        // Lấy dữ liệu từ các EditText trên giao diện
         String s_id = view_subject_list_txt_id.getText().toString();
         String name = view_subject_list_txt_name.getText().toString();
-        String des = view_subject_list_txt_des.getText().toString();
-
+        String des  = view_subject_list_txt_des.getText().toString();
+        // Kiểm tra dữ liệu đầu vào
+        // Không cho phép các trường thông tin bị bỏ trống
         if (s_id.isEmpty() || name.isEmpty() || des.isEmpty()) {
-            DisplayMessageDialog.displayMessage(ViewSubjectList.this, "Dữ liệu không hợp lệ!",
-                    "Hãy nhập đầy đủ các trường");
+            // Hiển thị thông báo lỗi khi dữ liệu không hợp lệ
+            DisplayMessageDialog.displayMessage(
+                    ViewSubjectList.this,"Dữ liệu không hợp lệ!",
+                    "Hãy nhập đầy đủ các trường"
+            );
+            // Dừng xử lý sự kiện
             return true;
         }
-
+        // Khởi tạo đối tượng Subject khi dữ liệu hợp lệ
         Subject s = new Subject(s_id, name, des, LoginActivity.USER_ID);
-
+        // Xử lý hành động tương ứng với lựa chọn trong context menu
         if (id == R.id.action_add) {
+            // Thực hiện chức năng thêm mới môn học
             addSubject(s);
             return true;
         } else if (id == R.id.action_edit) {
+            // Thực hiện chức năng chỉnh sửa thông tin môn học
             editSubject(s);
             return true;
         } else if (id == R.id.action_delete) {
+            // Thực hiện chức năng xóa môn học theo mã môn
             delSubject(s_id);
             return true;
         }
-
+        // Gọi xử lý mặc định nếu không có hành động nào phù hợp
         return super.onContextItemSelected(item);
     }
 

@@ -118,7 +118,7 @@ public class Test_resultDAO {
         List<StudentResult> list = new ArrayList<>();
         SQLiteDatabase db = databaseUtils.getReadableDatabase();
 
-        String sql = "SELECT User.user_fullname, Test_result.score, Test_result.completed_time " +
+        String sql = "SELECT User.username, User.user_fullname, Test_result.score, Test_result.completed_time " +
                 "FROM Test_result " +
                 "INNER JOIN User ON Test_result.user_id = User.user_id " +
                 "WHERE Test_result.set_id = ?";
@@ -127,9 +127,9 @@ public class Test_resultDAO {
 
         if (cursor.moveToFirst()) {
             do {
-                String name = cursor.getString(0);
-                double score = cursor.getDouble(1);
-                String time = cursor.getString(2);
+                String name = cursor.getString(0) + " - " +  cursor.getString(1);
+                double score = cursor.getDouble(2);
+                String time = cursor.getString(3);
                 list.add(new StudentResult(name, score, time));
             } while (cursor.moveToNext());
         }

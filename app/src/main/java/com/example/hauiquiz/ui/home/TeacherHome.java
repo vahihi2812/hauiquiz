@@ -12,6 +12,7 @@ import com.example.hauiquiz.R;
 import com.example.hauiquiz.ui.createTest.TeacherCreateTest;
 import com.example.hauiquiz.ui.createQuiz.ViewQuestionSet;
 import com.example.hauiquiz.ui.forum.ViewProblems;
+import com.example.hauiquiz.ui.chart.UploadQuestionExcelFile;
 
 public class TeacherHome extends AppCompatActivity implements View.OnClickListener {
     CardView card_teacher_test, card_teacher_result, card_teacher_question, card_teacher_create, card_teacher_history, card_teacher_logout;
@@ -80,6 +81,7 @@ public class TeacherHome extends AppCompatActivity implements View.OnClickListen
 
     private void moveToTeacherHistory() {
         // UPDATE
+        startActivity(new Intent(this, UploadQuestionExcelFile.class));
     }
 
     private void doLogout() {

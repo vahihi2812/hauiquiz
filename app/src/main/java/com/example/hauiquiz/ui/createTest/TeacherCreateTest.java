@@ -75,8 +75,6 @@ public class TeacherCreateTest extends AppCompatActivity implements AdapterView.
             editQuestionSet(qs);
         } else if (id == R.id.action_delete) {
             delQuestionSet();
-        } else if (id == R.id.teacher_create_test_btn_view) {
-            viewQuestion();
         }
 
         return super.onContextItemSelected(item);
@@ -151,6 +149,11 @@ public class TeacherCreateTest extends AppCompatActivity implements AdapterView.
 
         if (id == R.id.teacher_create_test_btn_back) {
             getBack();
+            return;
+        }
+
+        if (id == R.id.teacher_create_test_btn_view) {
+            viewQuestion();
         }
     }
 

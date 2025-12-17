@@ -1,7 +1,6 @@
 package com.example.hauiquiz.utils;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class SystemTime {
     private static final Calendar calendar = Calendar.getInstance();

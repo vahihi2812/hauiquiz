@@ -1,6 +1,7 @@
 package com.example.hauiquiz.dao;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,6 +40,22 @@ public class UserDAO {
         } catch (Exception e) {
             Log.e("UserDAO", e.getMessage(), e);
             return null;
+        }
+    }
+
+    public long addUser(User u) {
+        SQLiteDatabase db = databaseUtils.getWritableDatabase();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COL_USERNAME, u.getUsername());
+            values.put(COL_PASSWORD, u.getPassword());
+            values.put(COL_FULLNAME, u.getUser_fullname());
+            values.put(COL_ROLE_ID, u.getRole_id());
+
+            return db.insert(TABLE_NAME, null, values);
+        } catch (Exception e) {
+            Log.e("UserDAO", e.getMessage(), e);
+            return -1;
         }
     }
 }

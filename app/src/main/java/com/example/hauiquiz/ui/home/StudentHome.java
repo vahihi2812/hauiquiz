@@ -3,14 +3,14 @@ package com.example.hauiquiz.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.hauiquiz.R;
 import com.example.hauiquiz.ui.forum.ViewProblems;
-import com.example.hauiquiz.ui.forum.ViewSolutions;
+import com.example.hauiquiz.ui.chart.ShowScoreChart;
 import com.example.hauiquiz.ui.viewHistory.ViewResultHistory;
 import com.example.hauiquiz.ui.doTest.ChooseQuizz;
 import com.example.hauiquiz.ui.doTest.ChooseTest;
@@ -21,7 +21,7 @@ public class StudentHome extends AppCompatActivity implements View.OnClickListen
     CardView card_test, card_revise, card_question, card_create, card_history, card_result, card_note, card_logout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
 
@@ -75,7 +75,7 @@ public class StudentHome extends AppCompatActivity implements View.OnClickListen
 
     private void moveToResultScreen() {
         // View Ket qua hoc tap
-        Toast.makeText(this, "UPDATING", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, ShowScoreChart.class));
     }
 
     private void moveToHistoryScreen() {

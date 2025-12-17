@@ -7,12 +7,14 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hauiquiz.R;
 import com.example.hauiquiz.adapter.QuestionSetAdapter;
 import com.example.hauiquiz.dao.Question_setDAO;
 import com.example.hauiquiz.entity.Question_Set;
+import com.example.hauiquiz.ui.home.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class ChooseTest extends AppCompatActivity implements AdapterView.OnItemC
     private Question_setDAO qsDAO;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_test);
 
@@ -41,7 +43,9 @@ public class ChooseTest extends AppCompatActivity implements AdapterView.OnItemC
 
     private void getData() {
         qsDAO = new Question_setDAO(this);
-        list = new ArrayList<>(qsDAO.getAllSetByUserType(Question_Set.TYPE_TEST));
+        //list = new ArrayList<>(qsDAO.getAllSetByUserType(Question_Set.TYPE_TEST));
+        list = new ArrayList<>(qsDAO.getAllSetByUserTypeAndCompletedStatus(Question_Set.TYPE_TEST, LoginActivity.USER_ID));
+
         adapter = new QuestionSetAdapter(this, R.layout.item_question_set, list);
         lv.setAdapter(adapter);
     }

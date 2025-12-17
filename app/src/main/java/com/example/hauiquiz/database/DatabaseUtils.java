@@ -14,7 +14,7 @@ import java.io.OutputStream;
 
 public class DatabaseUtils extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseUtils";
-    private static final String DB_NAME = "test12.db";
+    private static final String DB_NAME = "test13.db";
     private static final int DB_VERSION = 1;
     private static DatabaseUtils instance;
     private final Context context;

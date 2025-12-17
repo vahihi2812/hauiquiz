@@ -75,6 +75,50 @@ public class Question_setDAO {
         return List.of();
     }
 
+    public List<Question_Set> getAllSetByUserTypeAndCompletedStatus(int setType, int userId) {
+        List<Question_Set> list = new ArrayList<>();
+        SQLiteDatabase db = databaseUtils.getReadableDatabase();
+
+        String sql =
+                "SELECT * FROM question_set qs " +
+                        "WHERE qs.set_type = ? " +
+                        "AND NOT EXISTS ( " +
+                        "   SELECT 1 FROM test_result tr " +
+                        "   WHERE tr.set_id = qs.set_id " +
+                        "   AND tr.user_id = ? " +
+                        ")";
+
+        try (Cursor cursor = db.rawQuery(
+                sql,
+                new String[]{
+                        String.valueOf(setType),
+                        String.valueOf(userId)
+                })) {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Question_Set qs = new Question_Set(
+                            cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getInt(4),
+                            cursor.getInt(5),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            cursor.getInt(8)
+                    );
+                    list.add(qs);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            return List.of();
+        }
+
+        return list;
+    }
+
     public boolean addQuestion_set(Question_Set qs) {
         SQLiteDatabase db = databaseUtils.getWritableDatabase();
         long res;

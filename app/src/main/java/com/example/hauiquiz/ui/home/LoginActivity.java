@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hauiquiz.R;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public static String LOGIN_TIME;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -38,7 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void getData() {
         userDAO = new UserDAO(this);
         // FAKE
-        edt_username.setText("user1");
+        //edt_username.setText("2022601216");
+        edt_username.setText("admin1");
         edt_password.setText("123");
     }
 

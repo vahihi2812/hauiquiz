@@ -6,24 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.testlinhtinh.Test1Activity">
+    tools:context=".ui.chart.UploadQuestionExcelFile">
 
-    <EditText
-        android:id="@+id/test_edt1"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_upload_file"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/test_edt2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
-
-    <ListView
-        android:id="@+id/lv_test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_gravity="center"
+        android:text="Upload" />
 </LinearLayout>
